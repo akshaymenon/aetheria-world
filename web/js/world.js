@@ -557,8 +557,7 @@ class WorldMap {
     }
 }
 
-// Global constants
+// Global state (single source of truth — declared here, assigned in ui.js)
 const TILE_SIZE = 16;
-
-// Initialize world map
 let worldMap;
+let worldData;

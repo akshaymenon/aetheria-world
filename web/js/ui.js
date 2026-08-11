@@ -3,9 +3,9 @@
  * Handles all UI interactions, data loading, and panel management.
  */
 
-// Global state
-let worldData = null;
-let worldMap = null;
+// Global state — variables declared in world.js, just initialize here
+worldData = null;
+worldMap = null;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
