@@ -11,43 +11,86 @@ let worldMap = null;
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('[Aetheria] Starting up...');
     
-    // Step 1: Fetch world data (while loading screen shows)
-    updateLoadingText('Loading world data...');
+    // Safety timer: auto-show app after 5 seconds no matter what
+    const safetyTimer = setTimeout(() => {
+        console.warn('[Aetheria] Safety timer triggered — forcing app visible');
+        showApp();
+    }, 5000);
+    
     try {
-        const response = await fetch('data/world.json');
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        worldData = await response.json();
+        // Step 1: Fetch world data (with timeout)
+        updateLoadingText('Loading world data...');
+        worldData = await fetchWorldData();
         console.log('[Aetheria] World loaded:', worldData.size + 'x' + worldData.size, 'seed:', worldData.seed);
-    } catch (e) {
-        console.error('[Aetheria] Failed to load world data:', e);
-        updateLoadingText('Error loading world data. Using fallback...');
-        worldData = createFallbackWorld();
+        
+        // Step 2: Show app
+        showApp();
+        clearTimeout(safetyTimer);
+        
+        // Step 3: Small delay for layout to settle
+        await new Promise(r => setTimeout(r, 50));
+        
+        // Step 4: Initialize map (container now has real dimensions)
+        console.log('[Aetheria] Initializing map...');
+        worldMap = new WorldMap('world-map');
+        worldMap.loadWorld(worldData);
+        
+        // Step 5: Build UI
+        console.log('[Aetheria] Building UI...');
+        initializeUI();
+        
+        // Entrance animations
+        const header = document.querySelector('.main-header');
+        const sidebar = document.querySelector('.sidebar');
+        const mapContainer = document.querySelector('.map-container');
+        if (header) header.style.animation = 'fadeInUp 0.5s ease';
+        if (sidebar) sidebar.style.animation = 'fadeInUp 0.6s ease';
+        if (mapContainer) mapContainer.style.animation = 'fadeInUp 0.7s ease';
+        
+        console.log('[Aetheria] Ready!');
+    } catch (err) {
+        clearTimeout(safetyTimer);
+        console.error('[Aetheria] FATAL ERROR:', err);
+        updateLoadingText('Error: ' + err.message);
+        const loadingText = document.querySelector('.loading-text');
+        if (loadingText) {
+            loadingText.style.color = '#ff6b6b';
+            loadingText.innerHTML = '<div style="margin-top:1rem">Something went wrong.<br>Check the browser console (F12) for details.</div>';
+        }
     }
-    
-    // Step 2: Hide loading, show app (gives containers real dimensions)
-    updateLoadingText('Entering Aetheria...');
-    document.getElementById('loading-screen').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    
-    // Small delay for layout to settle
-    await new Promise(r => setTimeout(r, 100));
-    
-    // Step 3: Initialize map NOW (container has real dimensions)
-    console.log('[Aetheria] Initializing map...');
-    worldMap = new WorldMap('world-map');
-    worldMap.loadWorld(worldData);
-    
-    // Step 4: Build UI
-    console.log('[Aetheria] Building UI...');
-    initializeUI();
-    
-    // Entrance animations
-    document.querySelector('.main-header').style.animation = 'fadeInUp 0.5s ease';
-    document.querySelector('.sidebar').style.animation = 'fadeInUp 0.6s ease';
-    document.querySelector('.map-container').style.animation = 'fadeInUp 0.7s ease';
-    
-    console.log('[Aetheria] Ready!');
 });
+
+async function fetchWorldData() {
+    // Fetch with 3-second timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    
+    try {
+        const response = await fetch('data/world.json', { signal: controller.signal });
+        clearTimeout(timeout);
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return await response.json();
+    } catch (e) {
+        clearTimeout(timeout);
+        if (e.name === 'AbortError') {
+            console.warn('[Aetheria] Fetch timed out, using fallback world');
+        } else {
+            console.warn('[Aetheria] Fetch failed:', e.message);
+        }
+        return createFallbackWorld();
+    }
+}
+
+function showApp() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const app = document.getElementById('app');
+    if (loadingScreen) loadingScreen.style.display = 'none';
+    if (app) {
+        app.classList.remove('hidden');
+        app.style.display = 'flex';
+        app.style.opacity = '1';
+    }
+}
 
 function updateLoadingText(text) {
     const el = document.querySelector('.loading-text');

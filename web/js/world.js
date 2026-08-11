@@ -6,6 +6,10 @@
 class WorldMap {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) {
+            console.error('[Aetheria] Canvas element not found:', canvasId);
+            return;
+        }
         this.ctx = this.canvas.getContext('2d');
         
         // World data
@@ -36,6 +40,8 @@ class WorldMap {
         this.resize();
         window.addEventListener('resize', () => this.resize());
         
+        if (!this.canvas) return;
+        
         // Mouse events
         this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
         this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
@@ -54,9 +60,13 @@ class WorldMap {
     }
     
     resize() {
+        if (!this.canvas) return;
         const container = this.canvas.parentElement;
-        this.canvas.width = container.clientWidth;
-        this.canvas.height = container.clientHeight;
+        if (!container) return;
+        const w = container.clientWidth || 800;
+        const h = container.clientHeight || 600;
+        this.canvas.width = w;
+        this.canvas.height = h;
         this.render();
     }
     
