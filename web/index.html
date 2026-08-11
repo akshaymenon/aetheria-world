@@ -3,193 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Habit Loop Concept Test</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236b8e6b'/%3E%3Cpath d='M18 38c8-2 13-10 14-20 8 8 13 16 14 28-8-5-17-5-28-8Z' fill='%23f7f4ef'/%3E%3C/svg%3E">
+  <title>City of Habits</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236b8e6b'/%3E%3Cpath d='M12 48c10-4 18-14 20-28 10 10 16 20 20 32-10-6-22-6-40-4Z' fill='%23f7f4ef'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <header class="app-header">
-    <div class="brand">
+    <div class="brand" aria-label="City of Habits">
       <span class="brand-mark" aria-hidden="true">✦</span>
-      <span class="brand-name">Habit Loop</span>
+      <span class="brand-name">City of Habits</span>
     </div>
-    <span class="study-badge">Concept Test</span>
+    <nav class="app-nav" aria-label="Primary">
+      <button class="nav-link is-active" data-view="city" aria-current="page">City</button>
+      <button class="nav-link" data-view="today">Today</button>
+      <button class="nav-link" data-view="atlas">Atlas</button>
+      <button class="nav-link" data-view="habits">Habits</button>
+      <button class="nav-link" data-view="weekly">Weekly</button>
+      <button class="nav-link" data-view="settings">Settings</button>
+    </nav>
   </header>
 
   <main id="main" class="app-main">
-    <!-- Consent / Assignment Screen -->
-    <section id="screen-consent" class="screen" aria-labelledby="consent-title">
-      <div class="card card--intro">
-        <h1 id="consent-title">Welcome</h1>
-        <p class="lead">
-          This is a short, self-contained concept test for three different ways to mark a single daily habit.
-        </p>
-        <div class="notice notice--privacy">
-          <strong>Your data stays in this browser.</strong>
-          Nothing is sent to a server. Responses and event logs are stored only in your browser’s localStorage. You can clear them at any time or export them as JSON at the end.
-        </div>
-
-        <div class="assignment-panel">
-          <h2>Your version</h2>
-          <p>You will be randomly assigned one of three versions. The habit loop underneath is identical in every version.</p>
-          <div class="version-chips" role="radiogroup" aria-label="Version assignment">
-            <label class="version-chip">
-              <input type="radio" name="condition" value="random" checked>
-              <span>Random assignment</span>
-            </label>
-            <label class="version-chip version-chip--researcher">
-              <input type="radio" name="condition" value="city">
-              <span>City of Habits</span>
-            </label>
-            <label class="version-chip version-chip--researcher">
-              <input type="radio" name="condition" value="garden">
-              <span>Garden of Habits</span>
-            </label>
-            <label class="version-chip version-chip--researcher">
-              <input type="radio" name="condition" value="clear">
-              <span>Clear Day</span>
-            </label>
-          </div>
-          <p class="researcher-note">The non-random options are for researchers only.</p>
-        </div>
-
-        <label class="consent-check">
-          <input type="checkbox" id="consent-check">
-          <span>I understand my data stays in this browser and I am willing to participate.</span>
-        </label>
-
-        <button id="start-btn" class="btn btn--primary" disabled>Begin</button>
+    <!-- City view -->
+    <section id="view-city" class="view" aria-labelledby="city-title">
+      <div class="page-header">
+        <h1 id="city-title">Your city</h1>
+        <p class="lead">Small habits build permanent places. Nothing is taken away.</p>
+      </div>
+      <div class="city-stage card" aria-live="polite">
+        <div id="city-scene" class="city-scene" role="img" aria-label="City visualization"></div>
+        <p id="city-summary" class="city-summary"></p>
+      </div>
+      <div class="city-legend card card--flat">
+        <h2>Districts</h2>
+        <ul id="city-legend-list" class="legend-list" aria-label="District legend"></ul>
       </div>
     </section>
 
-    <!-- Habit Setup Screen -->
-    <section id="screen-setup" class="screen is-hidden" aria-labelledby="setup-title">
-      <div class="card card--setup">
-        <h1 id="setup-title">Set up your habit</h1>
-        <p class="lead">Describe one habit you want to track for this test.</p>
-
-        <form id="setup-form" novalidate>
-          <div class="field">
-            <label for="habit-action">Observable action <span class="required">*</span></label>
-            <input type="text" id="habit-action" required placeholder="e.g., Drink a glass of water">
-            <p class="hint">What specific, visible action will you do?</p>
-          </div>
-
-          <div class="field">
-            <label for="habit-cue">Cue / context <span class="required">*</span></label>
-            <input type="text" id="habit-cue" required placeholder="e.g., Right after brushing my teeth">
-            <p class="hint">What reminds you to do it?</p>
-          </div>
-
-          <div class="field">
-            <label for="habit-minimum">Minimum version <span class="required">*</span></label>
-            <input type="text" id="habit-minimum" required placeholder="e.g., One small glass, even if I’m not thirsty">
-            <p class="hint">What is the smallest version that still counts?</p>
-          </div>
-
-          <button type="submit" class="btn btn--primary">Start tracking</button>
-        </form>
+    <!-- Today view -->
+    <section id="view-today" class="view is-hidden" aria-labelledby="today-title">
+      <div class="page-header">
+        <h1 id="today-title">Today</h1>
+        <p id="today-date" class="lead"></p>
+        <p id="today-schedule-hint" class="hint today-schedule-hint"></p>
+      </div>
+      <div id="today-list" class="today-list" aria-live="polite"></div>
+      <div id="today-empty" class="empty-state is-hidden">
+        <p>No habits yet. Add one to begin building your city.</p>
+        <button class="btn btn--primary" data-action="new-habit">Create a habit</button>
       </div>
     </section>
 
-    <!-- Tracker Screen -->
-    <section id="screen-tracker" class="screen is-hidden" aria-labelledby="tracker-title">
-      <div class="tracker-layout">
-        <div class="tracker-primary card">
-          <div class="condition-header">
-            <span id="condition-badge" class="condition-badge">Condition</span>
-            <h1 id="tracker-title">Your habit</h1>
-          </div>
+    <!-- Atlas view -->
+    <section id="view-atlas" class="view is-hidden" aria-labelledby="atlas-title">
+      <div class="page-header">
+        <h1 id="atlas-title">District atlas</h1>
+        <p class="lead">Every habit has a home in the city.</p>
+      </div>
+      <div id="atlas-grid" class="atlas-grid" aria-live="polite"></div>
+      <div id="atlas-empty" class="empty-state is-hidden">
+        <p>No buildings yet. Create a habit to fill the atlas.</p>
+        <button class="btn btn--primary" data-action="new-habit">Create a habit</button>
+      </div>
+    </section>
 
-          <div class="habit-summary" aria-live="polite">
-            <p id="habit-statement" class="habit-statement">I will <strong>—</strong> after <strong>—</strong>, at least <strong>—</strong>.</p>
-          </div>
+    <!-- Habits view -->
+    <section id="view-habits" class="view is-hidden" aria-labelledby="habits-title">
+      <div class="page-header page-header--split">
+        <div>
+          <h1 id="habits-title">Habits</h1>
+          <p class="lead">Create, edit, and archive the habits that shape your city.</p>
+        </div>
+        <button class="btn btn--primary" data-action="new-habit">New habit</button>
+      </div>
+      <div id="active-habits" class="habit-list" aria-live="polite"></div>
+      <div id="archived-habits-section" class="archived-section is-hidden">
+        <h2>Archived habits</h2>
+        <div id="archived-habits" class="habit-list habit-list--compact"></div>
+      </div>
+      <div id="habits-empty" class="empty-state">
+        <p>No habits yet. Start with one small thing you already do.</p>
+        <button class="btn btn--primary" data-action="new-habit">Create a habit</button>
+      </div>
+    </section>
 
-          <div class="today-panel">
-            <h2>Today</h2>
-            <p id="today-date" class="today-date"></p>
-            <div id="today-status" class="today-status" role="status" aria-live="polite">
-              No action recorded yet.
-            </div>
-            <div class="action-bar">
-              <button id="btn-done" class="btn btn--done">Done</button>
-              <button id="btn-skip" class="btn btn--skip">Not today</button>
-              <button id="btn-undo" class="btn btn--ghost" disabled>Undo</button>
-            </div>
-          </div>
+    <!-- Weekly view -->
+    <section id="view-weekly" class="view is-hidden" aria-labelledby="weekly-title">
+      <div class="page-header">
+        <h1 id="weekly-title">Weekly check-in</h1>
+        <p class="lead" id="weekly-subtitle"></p>
+      </div>
+      <div id="weekly-list" class="weekly-list" aria-live="polite"></div>
+      <div id="weekly-empty" class="empty-state is-hidden">
+        <p>No active habits to check in with.</p>
+        <button class="btn btn--primary" data-action="new-habit">Create a habit</button>
+      </div>
+    </section>
 
-          <div class="history-panel">
-            <h2>History</h2>
-            <ol id="history-list" class="history-list" aria-label="Recent history"></ol>
-          </div>
+    <!-- Settings view -->
+    <section id="view-settings" class="view is-hidden" aria-labelledby="settings-title">
+      <div class="page-header">
+        <h1 id="settings-title">Settings</h1>
+        <p class="lead">Your data lives only on this device.</p>
+      </div>
+
+      <div class="settings-grid">
+        <div class="card card--flat settings-card">
+          <h2>Backup</h2>
+          <p class="hint">Export a JSON file you can keep somewhere safe. It contains your habits and history and is only a local backup.</p>
+          <button id="btn-export" class="btn btn--secondary">Export backup JSON</button>
         </div>
 
-        <div class="tracker-visual card" aria-label="Habit visualization">
-          <div id="visual-wrapper" class="visual-wrapper">
-            <!-- Dynamic SVG inserted here -->
+        <div class="card card--flat settings-card">
+          <h2>Restore</h2>
+          <p class="hint">Import a previously exported backup. This replaces your current data, so export first if you are unsure.</p>
+          <label class="file-input-label">
+            <span class="btn btn--secondary">Choose backup file</span>
+            <input type="file" id="import-file" accept="application/json,.json" class="visually-hidden">
+          </label>
+          <div id="import-result" class="import-result" role="status" aria-live="polite"></div>
+        </div>
+
+        <div id="legacy-migration-card" class="card card--flat settings-card is-hidden">
+          <h2>Earlier prototype found</h2>
+          <p class="hint">Data from the old single-habit concept test is still in this browser. You can bring it into City of Habits or leave it behind.</p>
+          <div class="action-bar">
+            <button id="btn-migrate" class="btn btn--secondary">Import old habit</button>
+            <button id="btn-discard-legacy" class="btn btn--ghost">Discard old data</button>
           </div>
-          <p id="visual-caption" class="visual-caption"></p>
+          <div id="migration-result" class="import-result" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="card card--flat settings-card">
+          <h2>Data on this device</h2>
+          <p class="hint">Everything is stored in your browser. Clearing it cannot be undone.</p>
+          <button id="btn-erase" class="btn btn--danger">Erase all data</button>
         </div>
       </div>
 
-      <div class="feedback card">
-        <h2>Quick reflection</h2>
-        <p class="hint">This helps us compare the three designs. Your answers stay local.</p>
-        <form id="feedback-form" class="feedback-grid">
-          <div class="rating-row">
-            <label for="rating-useful">Expected usefulness</label>
-            <div class="rating-input">
-              <input type="range" id="rating-useful" min="1" max="7" value="4" aria-describedby="rating-useful-hint">
-              <span id="rating-useful-hint" class="rating-hint">Neutral</span>
-            </div>
-          </div>
-          <div class="rating-row">
-            <label for="rating-calm">Calmness</label>
-            <div class="rating-input">
-              <input type="range" id="rating-calm" min="1" max="7" value="4" aria-describedby="rating-calm-hint">
-              <span id="rating-calm-hint" class="rating-hint">Neutral</span>
-            </div>
-          </div>
-          <div class="rating-row">
-            <label for="rating-clarity">Clarity</label>
-            <div class="rating-input">
-              <input type="range" id="rating-clarity" min="1" max="7" value="4" aria-describedby="rating-clarity-hint">
-              <span id="rating-clarity-hint" class="rating-hint">Neutral</span>
-            </div>
-          </div>
-          <div class="rating-row">
-            <label for="rating-pressure">Pressure</label>
-            <div class="rating-input">
-              <input type="range" id="rating-pressure" min="1" max="7" value="4" aria-describedby="rating-pressure-hint">
-              <span id="rating-pressure-hint" class="rating-hint">Neutral</span>
-            </div>
-          </div>
-          <div class="rating-row rating-row--full">
-            <label for="rating-disappointed">If I missed today, I would be disappointed:</label>
-            <div class="rating-input">
-              <input type="range" id="rating-disappointed" min="1" max="7" value="4" aria-describedby="rating-disappointed-hint">
-              <span id="rating-disappointed-hint" class="rating-hint">Neutral</span>
-            </div>
-          </div>
-          <button type="submit" class="btn btn--secondary">Save reflection</button>
-        </form>
-        <div id="feedback-confirmation" class="feedback-confirmation is-hidden" role="status">Reflection saved.</div>
-      </div>
-
-      <div class="researcher-bar card card--flat">
-        <h2>Researcher tools</h2>
-        <p class="hint">Export the local event log as JSON. No data leaves the browser until you save the file.</p>
-        <button id="btn-export" class="btn btn--secondary">Export JSON</button>
-        <button id="btn-reset" class="btn btn--danger">Clear all local data</button>
+      <div class="privacy-note card card--flat">
+        <h2>Privacy</h2>
+        <p>City of Habits keeps all habits, history, and reflections in your browser’s local storage. Nothing is sent to a server, and there are no accounts, analytics, or ads. If you clear your browser data for this site, your city is gone unless you have an exported backup.</p>
       </div>
     </section>
   </main>
 
   <footer class="app-footer">
-    <p>Prototype for comparative concept testing. No accounts, ads, AI, or social features.</p>
+    <p>City of Habits — a calm, private place for small habits. No accounts, ads, AI, or tracking.</p>
   </footer>
+
+  <!-- Habit modal -->
+  <div id="habit-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="habit-modal-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel card">
+      <h2 id="habit-modal-title">New habit</h2>
+      <form id="habit-form" novalidate>
+        <input type="hidden" id="habit-id">
+        <div class="field">
+          <label for="habit-title">Habit title <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="habit-title" required placeholder="e.g., Drink a glass of water">
+        </div>
+        <div class="field">
+          <label for="habit-cue">Cue / context <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="habit-cue" required placeholder="e.g., Right after brushing my teeth">
+          <p class="hint">What reminds you to do it?</p>
+        </div>
+        <div class="field">
+          <label for="habit-minimum">Minimum version <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="habit-minimum" required placeholder="e.g., One small glass, even if I’m not thirsty">
+          <p class="hint">What is the smallest version that still counts?</p>
+        </div>
+        <div class="field">
+          <label for="habit-cadence">Cadence <span class="required" aria-hidden="true">*</span></label>
+          <select id="habit-cadence" required>
+            <option value="daily">Every day</option>
+            <option value="weekdays">Weekdays</option>
+            <option value="weekends">Weekends</option>
+            <option value="weekly">Once a week</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="habit-district">City district <span class="required" aria-hidden="true">*</span></label>
+          <select id="habit-district" required></select>
+          <p class="hint">Which part of the city does this habit belong to?</p>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn--ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn--primary">Save habit</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

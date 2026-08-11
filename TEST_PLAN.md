@@ -1,102 +1,63 @@
-# Test Plan — Habit Loop Concept Test
+# City of Habits — Manual Acceptance Test Plan
 
-Run the prototype with `python3 -m http.server 8000` and open `http://localhost:8000`.
+Run the app from `web/` with `python3 -m http.server 8000`. Use a fresh browser profile or clear the `cityOfHabits_v1` localStorage key before the first test.
 
-## 1. First load and consent
+## Fresh start and onboarding
 
-1. Load the page in a fresh browser profile (or clear `localStorage` for `localhost:8000`).
-2. Verify the **Welcome / Consent** screen appears.
-3. Verify the privacy notice states data stays in the browser.
-4. Verify the **Begin** button is disabled until the consent checkbox is checked.
-5. Check the checkbox and click **Begin**.
-6. Verify you are taken to the **Set up your habit** screen.
+1. Load the page and verify it presents City of Habits, not a research study or concept test.
+2. Complete the initial setup with a title, cue, minimum version, cadence, and district.
+3. Verify the new habit appears in Today and in the city/district view.
+4. Reload. Verify the habit and setup state persist.
 
-## 2. Random assignment
+## Daily loop
 
-1. Clear `localStorage` and reload the page.
-2. Complete consent multiple times.
-3. Verify the assigned condition (shown in the tracker badge) varies across City, Garden, and Clear Day.
+1. Mark a scheduled habit **Done**.
+2. Verify its status changes immediately, the textual city summary updates, and the city gains a permanent visual detail.
+3. Mark **Undo**. Verify only today's action is reverted and the city returns to its prior derived state.
+4. Mark **Not today**. Verify no city element is removed and no punitive copy appears.
+5. Verify that habits with cadences not scheduled for the current day are hidden from Today, with no overdue or punitive state.
+6. Reload after each state; verify persistence.
 
-## 3. Researcher override
+## Multiple habits and management
 
-1. Append `?condition=city` to the URL, clear `localStorage`, and complete consent.
-2. Verify the badge reads **City of Habits**.
-3. Repeat with `?condition=garden` and `?condition=clear`.
-4. Verify the researcher radio buttons on the consent screen also force a specific condition.
+1. Add two more habits with different districts/cadences.
+2. Verify each habit can be marked independently and each contributes to the appropriate district.
+3. Edit one habit's cue/minimum version and verify the update persists.
+4. Pause and resume a habit. Verify paused habits are clearly labelled, are removed from Today and the weekly active list, and can be resumed from Habits or Atlas; verify history and city contributions remain.
+5. Archive a habit. Verify its historic city contribution remains while it leaves active Today.
 
-## 4. Habit setup validation
+## Weekly recovery
 
-1. On the setup screen, leave one or more fields empty and submit.
-2. Verify the form does not proceed until all three fields are filled.
-3. Fill in **Observable action**, **Cue / context**, and **Minimum version**.
-4. Click **Start tracking**.
-5. Verify the tracker screen shows your habit in the sentence: *“I will [action] after [cue], at least [minimum].”*
+1. Open the weekly check-in after creating a habit.
+2. Select each option: Keep, Make it smaller, Change cue, Pause.
+3. For **Keep**, verify the choice and any note persist.
+4. For **Make it smaller**, edit the minimum version, verify it persists on the habit and in Today.
+5. For **Change cue**, edit the cue, verify it persists on the habit and in Today.
+6. For **Pause**, verify the habit disappears from Today and the weekly active list, appears labelled as paused, and can be resumed.
+7. Add a note without choosing an option; verify it is saved and can be exported/imported.
+8. Verify no streak, decay, missed-day penalty, XP, coins, score, or leaderboard appears.
 
-## 5. Daily actions
+## City and accessibility
 
-1. Verify today’s date is shown.
-2. Click **Done**.
-3. Verify the status reads “Today: done ✓” and the visualization updates immediately.
-4. Click **Undo**.
-5. Verify the status returns to “No action recorded yet.” and the visualization reverts.
-6. Click **Not today**.
-7. Verify the status reads “Today: not today” and the visualization does not change.
-8. Click **Undo** and then **Done** again.
-9. Verify the visualization grows permanently and never decays.
+1. Navigate city districts using keyboard and confirm active/selected states are visible.
+2. Verify all buttons have visible focus and all controls are usable with Tab, Enter, and Space.
+3. Open the New/Edit habit modal with the keyboard, then press Tab, Shift+Tab, and Escape; verify focus cycles within the modal when open and returns to the opener when closed.
+4. Verify the city has a meaningful textual alternative summary independent of visual inspection.
+4. Enable reduced motion and mark a habit Done; verify no interaction relies on animation.
+5. Test 390px-wide and 320px-wide viewports: navigation, dialogs, city controls, and forms remain usable.
 
-## 6. Version-specific visuals
+## Local backup and restoration
 
-### City of Habits
-- Each **Done** adds a permanent building to the city.
-- Buildings should be deterministic and never disappear.
+1. Create at least one habit and completion event.
+2. Click Export backup and verify a JSON file is downloaded.
+3. Clear local City of Habits data through the settings action, then import the backup.
+4. Confirm restore and verify habits/completions/city return.
+5. Attempt to import malformed JSON, a backup with unknown cadence/district, and a backup with history referencing missing habit IDs; verify each is rejected without altering existing state.
+6. Export a backup containing a note-only weekly entry, then import it; verify the note-only entry is accepted and restored.
+7. Confirm the UI states backups are private because they contain habit content.
 
-### Garden of Habits
-- Each **Done** adds a permanent flower/plant to the garden.
-- Plants should be deterministic and never disappear.
+## Browser checks
 
-### Clear Day
-- Each **Done** fills the next circle in a plain grid.
-- The grid should never reset or decay.
-
-## 7. Reflection feedback
-
-1. Adjust each slider.
-2. Verify the hint text updates to match the selected value (1–7).
-3. Click **Save reflection**.
-4. Verify the confirmation message appears.
-5. Verify sliders reset to neutral (4) after saving.
-
-## 8. Event log and export
-
-1. Open the browser console and inspect `localStorage.habitLoopStudy_v1`.
-2. Verify the stored object contains `condition`, `habit`, `history`, `feedback`, and `events`.
-3. Verify each button click created an event in `events` with a timestamp and payload.
-4. Click **Export JSON**.
-5. Verify a `.json` file downloads containing condition, history, feedback, and events.
-6. Verify the export **does not include** the free-text habit action, cue, or minimum-version fields.
-
-## 9. Clear data
-
-1. Click **Clear all local data**.
-2. Confirm the dialog.
-3. Verify the app returns to the consent screen.
-4. Verify `localStorage.habitLoopStudy_v1` is removed.
-
-## 10. Accessibility and responsiveness
-
-1. Use the keyboard (Tab, Enter, Space) to navigate all controls.
-2. Verify focus indicators are visible.
-3. Test in a narrow viewport (mobile) and verify the layout stacks cleanly.
-4. Enable the browser’s reduced-motion preference and verify no motion-dependent animations are required.
-
-## 11. Prohibited elements check
-
-Verify the prototype contains **none** of the following:
-- Streak counters
-- Coins / points / XP
-- Leaderboards
-- Progress decay or removal of old visual elements
-- Guilt language
-- Ads
-- AI-generated content
-- Social features or sharing
+1. Open the DevTools console during a fresh load and primary flow; verify zero application errors.
+2. Verify `/`, `app.js`, and `styles.css` return HTTP 200 from the local static server.
+3. Verify no network requests go to third parties.

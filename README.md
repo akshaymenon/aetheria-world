@@ -1,49 +1,45 @@
-# Habit Loop Concept Test
+# City of Habits
 
-A polished, self-contained interactive prototype for a comparative concept test of three habit-tracking wrappers around an identical one-habit loop.
+A private, offline-first personal habit companion where small real-world actions leave permanent traces in a calm city.
 
-## Versions
+There are no streaks, scores, coins, leaders, decay mechanics, ads, social feeds, accounts, trackers, or AI coaching. A difficult day does not damage your city.
 
-- **City of Habits** — a permanent calm city that grows with each completed day.
-- **Garden of Habits** — a permanent garden that adds plants with each completed day.
-- **Clear Day** — a plain tracker control with a simple grid of checkmarks.
+## What it does
 
-The underlying habit loop is identical in every version: one observable action, one cue/context, one minimum version, and daily entries of **Done**, **Not today**, or **Undo**.
+- Create several habits with an action, a cue, a minimum version, a cadence, and a city district.
+- Use **Done**, **Not today**, and **Undo** for each scheduled habit. Cadence controls which habits appear in Today: daily, weekdays, weekends, or once a week on a stable assigned weekday derived from the habit name.
+- Explore a deterministic, evolving city: completed habit events add durable buildings and district details.
+- Edit, pause, resume, and archive habits.
+- Use the weekly check-in to keep a plan, make its minimum smaller, change its cue, or pause it. Paused habits are excluded from Today and the weekly active list until resumed, while their history and city contributions remain.
+- Keep all data locally in the browser; download a full local backup and restore it later.
+- Import the earlier single-habit prototype state when it is detected locally.
 
-## Design principles
+## Run locally
 
-- No streaks, coins, XP, leaderboards, decay, guilt, ads, AI, or social features.
-- Completed days trigger an immediate, deterministic visual transformation.
-- Missed days never remove or decay progress.
-- All data stays in the browser (`localStorage`).
-- No external dependencies; vanilla HTML, CSS, and JavaScript only.
-
-## Running locally
-
-From this directory, run:
+From this repository:
 
 ```bash
+cd web
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in a web browser.
+Open `http://localhost:8000`.
 
-## Participant flow
-
-1. **Consent screen** — participants read the privacy notice and confirm that data stays in the browser.
-2. **Random assignment** — participants are randomly assigned to one of the three versions. Researchers can override assignment with the query parameter `?condition=city`, `?condition=garden`, or `?condition=clear`, or by selecting a version on the consent screen.
-3. **Habit setup** — participants enter an observable action, a cue/context, and a minimum version.
-4. **Tracker** — participants mark each day as **Done** or **Not today**. **Done** adds a permanent element to the visualization. **Undo** removes today’s entry only.
-5. **Reflection** — optional sliders capture expected usefulness, calmness, clarity, pressure, and would-be-disappointed feelings.
-6. **Export** — researchers can export the full local event log and feedback as JSON.
+No build step, account, API, cookies, third-party analytics, or remote dependency is used.
 
 ## Data and privacy
 
-All state is stored in the browser’s `localStorage` under the key `habitLoopStudy_v1`. Nothing is transmitted to any server. Participants can clear all data at any time from the researcher tools section.
+The app stores its state only in your browser `localStorage` under `cityOfHabits_v1`. Nothing is transmitted anywhere.
 
-## Files
+**Export data** creates a downloadable JSON backup containing your habit titles and completion history. Treat that file as private. **Import backup** replaces the current local City of Habits data only after confirmation and strict schema validation. Every habit field, history action, and weekly reference is checked; a malformed or mismatched backup is rejected without changing local state.
 
-- `index.html` — app structure.
-- `styles.css` — cozy editorial design, responsive layout, reduced-motion support.
-- `app.js` — application logic, event logging, export, and SVG visualizations.
-- `TEST_PLAN.md` — manual test plan.
+## Static deployment
+
+The deployable static site lives in `web/`. Point a static host or Vercel project at that directory.
+
+## Project files
+
+- `web/index.html` — semantic application shell and accessible dialogs
+- `web/styles.css` — responsive visual design and reduced-motion support
+- `web/app.js` — local state, habit management, deterministic city renderer, backup and import
+- `TEST_PLAN.md` — manual acceptance test plan

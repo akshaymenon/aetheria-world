@@ -1,0 +1,15 @@
+{
+  "scope": "City of Habits static local-first product",
+  "base": "a74a6ad7d19fd72d6af832b6db044fe21fe92fad",
+  "checks": [
+    {"command": "node --check web/app.js", "result": "pass"},
+    {"command": "git diff --check", "result": "pass"},
+    {"command": "python3 -m http.server 8780 (web/) and curl assets", "result": "index/app.js/styles.css returned HTTP 200"},
+    {"command": "static acceptance contract", "result": "pass: multi-habit, city-only, persistent actions, weekly recovery actions, backup/import validation, cadence, reduced-motion, no research UI"}
+  ],
+  "review": {
+    "first_independent_review": "Five blocking/important findings were returned and repaired: operational weekly recovery, note-only backup, strict backup validation, cadence enforcement, modal focus management.",
+    "second_independent_review": "Stopped after repeated no-output timeout while reading files; it did not produce a verdict."
+  },
+  "limitation": "Browser visual/E2E QA could not run because the local browser harness reported that Chrome was unavailable. Static serving, syntax, and source-level acceptance checks ran successfully."
+}
