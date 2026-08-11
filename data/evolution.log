@@ -1,9 +1,0 @@
-========================================
-AETHERIA Evolution - 2026-08-11T07:28:42+00:00
-========================================
-Traceback (most recent call last):
-  File "/root/projects/aetheria/src/evolution.py", line 11, in <module>
-    from world_engine import World, BIOMES, LOCATION_TYPES
-  File "/root/projects/aetheria/src/world_engine.py", line 12, in <module>
-    from PIL import Image, ImageDraw
-ModuleNotFoundError: No module named 'PIL'
