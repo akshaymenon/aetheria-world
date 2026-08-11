@@ -1,179 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AETHERIA — The Autonomous World</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Loop Concept Test</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236b8e6b'/%3E%3Cpath d='M18 38c8-2 13-10 14-20 8 8 13 16 14 28-8-5-17-5-28-8Z' fill='%23f7f4ef'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="loading-screen">
-        <div class="loading-content">
-            <div class="loading-title">AETHERIA</div>
-            <div class="loading-subtitle">The Autonomous World</div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-            <div class="loading-text">Generating reality...</div>
-        </div>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span class="brand-name">Habit Loop</span>
     </div>
+    <span class="study-badge">Concept Test</span>
+  </header>
 
-    <div id="app" class="hidden">
-        <!-- Header -->
-        <header class="main-header">
-            <div class="header-left">
-                <h1 class="game-title">
-                    <span class="title-icon">✨</span>
-                    AETHERIA
-                    <span class="title-tag">AUTONOMOUS WORLD</span>
-                </h1>
-            </div>
-            <div class="header-center">
-                <div class="world-stats">
-                    <div class="stat">
-                        <span class="stat-label">Age</span>
-                        <span class="stat-value" id="world-age">0</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Discovered</span>
-                        <span class="stat-value" id="discovered-count">0</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Locations</span>
-                        <span class="stat-value" id="location-count">0</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Characters</span>
-                        <span class="stat-value" id="character-count">0</span>
-                    </div>
-                </div>
-            </div>
-            <div class="header-right">
-                <button class="btn-icon" id="btn-sound" title="Toggle Sound">🔊</button>
-                <button class="btn-icon" id="btn-help" title="Help">?</button>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Sidebar -->
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-tabs">
-                    <button class="tab-btn active" data-tab="locations">🗺️ Locations</button>
-                    <button class="tab-btn" data-tab="characters">🧙 Characters</button>
-                    <button class="tab-btn" data-tab="history">📚 History</button>
-                    <button class="tab-btn" data-tab="lore">📜 Lore</button>
-                </div>
-
-                <div class="tab-content active" id="tab-locations">
-                    <div class="search-box">
-                        <input type="text" id="location-search" placeholder="Search locations...">
-                    </div>
-                    <div class="locations-list" id="locations-list"></div>
-                </div>
-
-                <div class="tab-content" id="tab-characters">
-                    <div class="search-box">
-                        <input type="text" id="character-search" placeholder="Search characters...">
-                    </div>
-                    <div class="characters-list" id="characters-list"></div>
-                </div>
-
-                <div class="tab-content" id="tab-history">
-                    <div class="timeline" id="timeline"></div>
-                </div>
-
-                <div class="tab-content" id="tab-lore">
-                    <div class="lore-content" id="lore-content">
-                        <div class="lore-intro">
-                            <h3>The World of Aetheria</h3>
-                            <p>Welcome to a world that creates itself. Aetheria is an autonomous digital realm — 
-                            procedurally generated, continuously evolving, and alive with stories waiting to be discovered.</p>
-                            <p>Each tile, each location, each character was born from algorithms and imagination. 
-                            The world grows and changes even when you're not watching.</p>
-                        </div>
-                        <div class="biome-legend" id="biome-legend"></div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Map Container -->
-            <div class="map-container" id="map-container">
-                <canvas id="world-map"></canvas>
-                
-                <!-- Map Controls -->
-                <div class="map-controls">
-                    <button class="map-btn" id="btn-zoom-in" title="Zoom In">+</button>
-                    <button class="map-btn" id="btn-zoom-out" title="Zoom Out">−</button>
-                    <button class="map-btn" id="btn-reset" title="Reset View">○</button>
-                    <button class="map-btn" id="btn-discover" title="Discover New Area">🌟</button>
-                </div>
-
-                <!-- Coordinate display -->
-                <div class="coords-display" id="coords-display">0, 0</div>
-
-                <!-- Tooltip -->
-                <div class="map-tooltip" id="map-tooltip"></div>
-            </div>
-
-            <!-- Detail Panel -->
-            <div class="detail-panel hidden" id="detail-panel">
-                <button class="detail-close" id="detail-close">×</button>
-                <div class="detail-content" id="detail-content"></div>
-            </div>
+  <main id="main" class="app-main">
+    <!-- Consent / Assignment Screen -->
+    <section id="screen-consent" class="screen" aria-labelledby="consent-title">
+      <div class="card card--intro">
+        <h1 id="consent-title">Welcome</h1>
+        <p class="lead">
+          This is a short, self-contained concept test for three different ways to mark a single daily habit.
+        </p>
+        <div class="notice notice--privacy">
+          <strong>Your data stays in this browser.</strong>
+          Nothing is sent to a server. Responses and event logs are stored only in your browser’s localStorage. You can clear them at any time or export them as JSON at the end.
         </div>
 
-        <!-- Footer -->
-        <footer class="main-footer">
-            <div class="footer-left">
-                <span class="agent-badge">🤖 Built by Chatur Agent</span>
-                <span class="evolution-status" id="evolution-status">World is evolving...</span>
-            </div>
-            <div class="footer-right">
-                <span class="seed-display" id="seed-display">Seed: ???</span>
-                <span class="last-updated" id="last-updated">Just now</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Help Modal -->
-    <div class="modal hidden" id="help-modal">
-        <div class="modal-content">
-            <button class="modal-close" id="modal-close">×</button>
-            <h2>🌟 How to Explore Aetheria</h2>
-            <div class="help-grid">
-                <div class="help-item">
-                    <div class="help-key">🖱️ Click & Drag</div>
-                    <div class="help-desc">Pan across the world map</div>
-                </div>
-                <div class="help-item">
-                    <div class="help-key">👆 Scroll</div>
-                    <div class="help-desc">Zoom in and out</div>
-                </div>
-                <div class="help-item">
-                    <div class="help-key">👆 Click</div>
-                    <div class="help-desc">Select a tile or location</div>
-                </div>
-                <div class="help-item">
-                    <div class="help-key">🌟 Discover</div>
-                    <div class="help-desc">Reveal new areas of the map</div>
-                </div>
-                <div class="help-item">
-                    <div class="help-key">🗺️ Sidebar</div>
-                    <div class="help-desc">Browse locations and characters</div>
-                </div>
-                <div class="help-item">
-                    <div class="help-key">⚡ Auto-Evolution</div>
-                    <div class="help-desc">The world evolves on its own via cron jobs</div>
-                </div>
-            </div>
-            <p class="help-footer">Aetheria is an autonomous world — it generates itself, tells its own stories, 
-            and evolves over time. Every visit may reveal something new.</p>
+        <div class="assignment-panel">
+          <h2>Your version</h2>
+          <p>You will be randomly assigned one of three versions. The habit loop underneath is identical in every version.</p>
+          <div class="version-chips" role="radiogroup" aria-label="Version assignment">
+            <label class="version-chip">
+              <input type="radio" name="condition" value="random" checked>
+              <span>Random assignment</span>
+            </label>
+            <label class="version-chip version-chip--researcher">
+              <input type="radio" name="condition" value="city">
+              <span>City of Habits</span>
+            </label>
+            <label class="version-chip version-chip--researcher">
+              <input type="radio" name="condition" value="garden">
+              <span>Garden of Habits</span>
+            </label>
+            <label class="version-chip version-chip--researcher">
+              <input type="radio" name="condition" value="clear">
+              <span>Clear Day</span>
+            </label>
+          </div>
+          <p class="researcher-note">The non-random options are for researchers only.</p>
         </div>
-    </div>
 
-    <script src="js/world.js?v=3"></script>
-    <script src="js/ui.js?v=3"></script>
+        <label class="consent-check">
+          <input type="checkbox" id="consent-check">
+          <span>I understand my data stays in this browser and I am willing to participate.</span>
+        </label>
+
+        <button id="start-btn" class="btn btn--primary" disabled>Begin</button>
+      </div>
+    </section>
+
+    <!-- Habit Setup Screen -->
+    <section id="screen-setup" class="screen is-hidden" aria-labelledby="setup-title">
+      <div class="card card--setup">
+        <h1 id="setup-title">Set up your habit</h1>
+        <p class="lead">Describe one habit you want to track for this test.</p>
+
+        <form id="setup-form" novalidate>
+          <div class="field">
+            <label for="habit-action">Observable action <span class="required">*</span></label>
+            <input type="text" id="habit-action" required placeholder="e.g., Drink a glass of water">
+            <p class="hint">What specific, visible action will you do?</p>
+          </div>
+
+          <div class="field">
+            <label for="habit-cue">Cue / context <span class="required">*</span></label>
+            <input type="text" id="habit-cue" required placeholder="e.g., Right after brushing my teeth">
+            <p class="hint">What reminds you to do it?</p>
+          </div>
+
+          <div class="field">
+            <label for="habit-minimum">Minimum version <span class="required">*</span></label>
+            <input type="text" id="habit-minimum" required placeholder="e.g., One small glass, even if I’m not thirsty">
+            <p class="hint">What is the smallest version that still counts?</p>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Start tracking</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Tracker Screen -->
+    <section id="screen-tracker" class="screen is-hidden" aria-labelledby="tracker-title">
+      <div class="tracker-layout">
+        <div class="tracker-primary card">
+          <div class="condition-header">
+            <span id="condition-badge" class="condition-badge">Condition</span>
+            <h1 id="tracker-title">Your habit</h1>
+          </div>
+
+          <div class="habit-summary" aria-live="polite">
+            <p id="habit-statement" class="habit-statement">I will <strong>—</strong> after <strong>—</strong>, at least <strong>—</strong>.</p>
+          </div>
+
+          <div class="today-panel">
+            <h2>Today</h2>
+            <p id="today-date" class="today-date"></p>
+            <div id="today-status" class="today-status" role="status" aria-live="polite">
+              No action recorded yet.
+            </div>
+            <div class="action-bar">
+              <button id="btn-done" class="btn btn--done">Done</button>
+              <button id="btn-skip" class="btn btn--skip">Not today</button>
+              <button id="btn-undo" class="btn btn--ghost" disabled>Undo</button>
+            </div>
+          </div>
+
+          <div class="history-panel">
+            <h2>History</h2>
+            <ol id="history-list" class="history-list" aria-label="Recent history"></ol>
+          </div>
+        </div>
+
+        <div class="tracker-visual card" aria-label="Habit visualization">
+          <div id="visual-wrapper" class="visual-wrapper">
+            <!-- Dynamic SVG inserted here -->
+          </div>
+          <p id="visual-caption" class="visual-caption"></p>
+        </div>
+      </div>
+
+      <div class="feedback card">
+        <h2>Quick reflection</h2>
+        <p class="hint">This helps us compare the three designs. Your answers stay local.</p>
+        <form id="feedback-form" class="feedback-grid">
+          <div class="rating-row">
+            <label for="rating-useful">Expected usefulness</label>
+            <div class="rating-input">
+              <input type="range" id="rating-useful" min="1" max="7" value="4" aria-describedby="rating-useful-hint">
+              <span id="rating-useful-hint" class="rating-hint">Neutral</span>
+            </div>
+          </div>
+          <div class="rating-row">
+            <label for="rating-calm">Calmness</label>
+            <div class="rating-input">
+              <input type="range" id="rating-calm" min="1" max="7" value="4" aria-describedby="rating-calm-hint">
+              <span id="rating-calm-hint" class="rating-hint">Neutral</span>
+            </div>
+          </div>
+          <div class="rating-row">
+            <label for="rating-clarity">Clarity</label>
+            <div class="rating-input">
+              <input type="range" id="rating-clarity" min="1" max="7" value="4" aria-describedby="rating-clarity-hint">
+              <span id="rating-clarity-hint" class="rating-hint">Neutral</span>
+            </div>
+          </div>
+          <div class="rating-row">
+            <label for="rating-pressure">Pressure</label>
+            <div class="rating-input">
+              <input type="range" id="rating-pressure" min="1" max="7" value="4" aria-describedby="rating-pressure-hint">
+              <span id="rating-pressure-hint" class="rating-hint">Neutral</span>
+            </div>
+          </div>
+          <div class="rating-row rating-row--full">
+            <label for="rating-disappointed">If I missed today, I would be disappointed:</label>
+            <div class="rating-input">
+              <input type="range" id="rating-disappointed" min="1" max="7" value="4" aria-describedby="rating-disappointed-hint">
+              <span id="rating-disappointed-hint" class="rating-hint">Neutral</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--secondary">Save reflection</button>
+        </form>
+        <div id="feedback-confirmation" class="feedback-confirmation is-hidden" role="status">Reflection saved.</div>
+      </div>
+
+      <div class="researcher-bar card card--flat">
+        <h2>Researcher tools</h2>
+        <p class="hint">Export the local event log as JSON. No data leaves the browser until you save the file.</p>
+        <button id="btn-export" class="btn btn--secondary">Export JSON</button>
+        <button id="btn-reset" class="btn btn--danger">Clear all local data</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Prototype for comparative concept testing. No accounts, ads, AI, or social features.</p>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>

@@ -1,130 +1,49 @@
-# ✨ AETHERIA — The Autonomous World
+# Habit Loop Concept Test
 
-> *A living, breathing digital world that creates itself and evolves over time.*
+A polished, self-contained interactive prototype for a comparative concept test of three habit-tracking wrappers around an identical one-habit loop.
 
-Built entirely by **Chatur Agent** — an autonomous AI that designed, coded, and breathed life into this world without human intervention.
+## Versions
 
----
+- **City of Habits** — a permanent calm city that grows with each completed day.
+- **Garden of Habits** — a permanent garden that adds plants with each completed day.
+- **Clear Day** — a plain tracker control with a simple grid of checkmarks.
 
-## 🌐 What is Aetheria?
+The underlying habit loop is identical in every version: one observable action, one cue/context, one minimum version, and daily entries of **Done**, **Not today**, or **Undo**.
 
-Aetheria is a **self-generating, self-evolving pixel-art world** that demonstrates the full creative and technical capabilities of an autonomous AI agent:
+## Design principles
 
-- **Procedural World Generation** — 64×64 tile world with 12 distinct biomes generated using Fractal Brownian Motion
-- **Pixel Art Engine** — Programmatically generated pixel-art tiles and location icons
-- **Interactive Web Viewer** — Canvas-based map with pan, zoom, fog of war, and discovery mechanics
-- **Living Lore System** — 50+ locations with unique descriptions, secrets, and backstory
-- **Character Ecosystem** — 40+ characters with races, roles, personalities, and relationships
-- **Autonomous Evolution** — Cron jobs evolve the world every 30 minutes (new discoveries, character growth, world events)
+- No streaks, coins, XP, leaderboards, decay, guilt, ads, AI, or social features.
+- Completed days trigger an immediate, deterministic visual transformation.
+- Missed days never remove or decay progress.
+- All data stays in the browser (`localStorage`).
+- No external dependencies; vanilla HTML, CSS, and JavaScript only.
 
----
+## Running locally
 
-## 🎨 Showcase Features
-
-| Feature | Description |
-|---------|-------------|
-| 🌍 **Procedural Terrain** | 12 biomes: Deep Ocean, Ocean, Beach, Plains, Forest, Deep Forest, Mountain, Peak, Snow, Desert, Swamp, Volcanic, Jungle, Crystal Fields |
-| 🏰 **50+ Locations** | Ruins, Towers, Caves, Villages, Cities, Shrines, Portals, Elder Trees, Lakes, Camps — each with unique lore |
-| 🧙 **40+ Characters** | Humans, Elves, Dwarves, Orcs, Fae, Dragonborn — with classes, levels, and evolving backstories |
-| 🎭 **Fog of War** | Undiscovered areas hidden in darkness; click “Discover” to reveal new territories |
-| ⚡ **Auto-Evolution** | World evolves via cron jobs: discoveries, character level-ups, relationship formation, historical events |
-| 🎨 **Pixel Art** | Every biome tile and location icon generated programmatically with unique textures |
-| 🎮 **Interactive** | Pan, zoom, click to explore. Beautiful dark fantasy UI with golden accents |
-
----
-
-## 🚀 Quick Start
+From this directory, run:
 
 ```bash
-# Navigate to project
-cd /root/projects/aetheria
-
-# Generate a fresh world (optional)
-cd src && python3 world_engine.py
-
-# Start the web viewer
-cd ../web && python3 -m http.server 8765
-
-# Open in browser
-open http://localhost:8765
+python3 -m http.server 8000
 ```
 
----
+Then open `http://localhost:8000` in a web browser.
 
-## 🏆 Architecture
+## Participant flow
 
-```
-aetheria/
-├── src/
-│   ├── world_engine.py      # Procedural world generation (FBM noise, biomes, locations)
-│   ├── pixel_art.py          # Pixel art tile & icon generator
-│   └── evolution.py          # Autonomous world evolution engine
-├── web/
-│   ├── index.html            # Main interactive viewer
-│   ├── css/style.css         # Dark fantasy theme
-│   ├── js/world.js           # Canvas map renderer (pan, zoom, fog)
-│   ├── js/ui.js              # UI controller (tabs, panels, search)
-│   ├── data/world.json       # Live world state
-│   └── assets/
-│       ├── tiles/            # Pixel art biome tiles
-│       └── map_full.png      # Full world map render
-├── data/
-│   └── world.json            # Master world state
-├── cron/
-│   └── evolve.sh             # Cron evolution script
-└── README.md
-```
+1. **Consent screen** — participants read the privacy notice and confirm that data stays in the browser.
+2. **Random assignment** — participants are randomly assigned to one of the three versions. Researchers can override assignment with the query parameter `?condition=city`, `?condition=garden`, or `?condition=clear`, or by selecting a version on the consent screen.
+3. **Habit setup** — participants enter an observable action, a cue/context, and a minimum version.
+4. **Tracker** — participants mark each day as **Done** or **Not today**. **Done** adds a permanent element to the visualization. **Undo** removes today’s entry only.
+5. **Reflection** — optional sliders capture expected usefulness, calmness, clarity, pressure, and would-be-disappointed feelings.
+6. **Export** — researchers can export the full local event log and feedback as JSON.
 
----
+## Data and privacy
 
-## ⚙️ Autonomous Evolution (Cron Jobs)
+All state is stored in the browser’s `localStorage` under the key `habitLoopStudy_v1`. Nothing is transmitted to any server. Participants can clear all data at any time from the researcher tools section.
 
-The world evolves automatically every **30 minutes** via cron job. Each evolution cycle can:
+## Files
 
-- **Discover new territories** — Unveil fog-of-war areas adjacent to known lands
-- **Uncover secrets** — Locations gain hidden lore and mysteries
-- **Level up characters** — Characters grow stronger and gain experience
-- **Trigger world events** — Historical events are added to the timeline
-- **Form relationships** — Characters develop bonds, rivalries, and alliances
-- **Character movement** — NPCs travel between locations
-
----
-
-## 🎮 How to Explore
-
-1. **Pan & Zoom** — Click and drag to move. Scroll to zoom in/out
-2. **Discover** — Click the 🌟 button to reveal new areas
-3. **Explore Locations** — Click on map icons to see detailed lore
-4. **Browse Sidebar** — Switch between Locations, Characters, History, and Lore tabs
-5. **Search** — Filter locations and characters by name
-6. **Watch it Grow** — Come back later — the world will have evolved!
-
----
-
-## 🔧 Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| World Gen | Python + PIL |
-| Noise | Custom FBM implementation |
-| Frontend | Vanilla HTML5 Canvas + CSS3 |
-| Fonts | Cinzel, Crimson Text, JetBrains Mono |
-| Evolution | Python cron jobs |
-| Storage | JSON world state |
-
----
-
-## 🏆 Built By
-
-**Chatur Agent** — An autonomous AI agent that:
-- Designed the architecture
-- Wrote 100% of the code
-- Generated all pixel art
-- Created all lore and descriptions
-- Set up autonomous cron-driven evolution
-
-> *"I didn't just build a world. I built a world that builds itself."* — Chatur
-
----
-
-*Aetheria — Where code meets creativity, and worlds are born from imagination.* ✨
+- `index.html` — app structure.
+- `styles.css` — cozy editorial design, responsive layout, reduced-motion support.
+- `app.js` — application logic, event logging, export, and SVG visualizations.
+- `TEST_PLAN.md` — manual test plan.
