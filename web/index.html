@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHERIA — The Autonomous World</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-title">AETHERIA</div>
+            <div class="loading-subtitle">The Autonomous World</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-text">Generating reality...</div>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 class="game-title">
+                    <span class="title-icon">✨</span>
+                    AETHERIA
+                    <span class="title-tag">AUTONOMOUS WORLD</span>
+                </h1>
+            </div>
+            <div class="header-center">
+                <div class="world-stats">
+                    <div class="stat">
+                        <span class="stat-label">Age</span>
+                        <span class="stat-value" id="world-age">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Discovered</span>
+                        <span class="stat-value" id="discovered-count">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Locations</span>
+                        <span class="stat-value" id="location-count">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Characters</span>
+                        <span class="stat-value" id="character-count">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn-icon" id="btn-sound" title="Toggle Sound">🔊</button>
+                <button class="btn-icon" id="btn-help" title="Help">?</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-tabs">
+                    <button class="tab-btn active" data-tab="locations">🗺️ Locations</button>
+                    <button class="tab-btn" data-tab="characters">🧙 Characters</button>
+                    <button class="tab-btn" data-tab="history">📚 History</button>
+                    <button class="tab-btn" data-tab="lore">📜 Lore</button>
+                </div>
+
+                <div class="tab-content active" id="tab-locations">
+                    <div class="search-box">
+                        <input type="text" id="location-search" placeholder="Search locations...">
+                    </div>
+                    <div class="locations-list" id="locations-list"></div>
+                </div>
+
+                <div class="tab-content" id="tab-characters">
+                    <div class="search-box">
+                        <input type="text" id="character-search" placeholder="Search characters...">
+                    </div>
+                    <div class="characters-list" id="characters-list"></div>
+                </div>
+
+                <div class="tab-content" id="tab-history">
+                    <div class="timeline" id="timeline"></div>
+                </div>
+
+                <div class="tab-content" id="tab-lore">
+                    <div class="lore-content" id="lore-content">
+                        <div class="lore-intro">
+                            <h3>The World of Aetheria</h3>
+                            <p>Welcome to a world that creates itself. Aetheria is an autonomous digital realm — 
+                            procedurally generated, continuously evolving, and alive with stories waiting to be discovered.</p>
+                            <p>Each tile, each location, each character was born from algorithms and imagination. 
+                            The world grows and changes even when you're not watching.</p>
+                        </div>
+                        <div class="biome-legend" id="biome-legend"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Map Container -->
+            <div class="map-container" id="map-container">
+                <canvas id="world-map"></canvas>
+                
+                <!-- Map Controls -->
+                <div class="map-controls">
+                    <button class="map-btn" id="btn-zoom-in" title="Zoom In">+</button>
+                    <button class="map-btn" id="btn-zoom-out" title="Zoom Out">−</button>
+                    <button class="map-btn" id="btn-reset" title="Reset View">○</button>
+                    <button class="map-btn" id="btn-discover" title="Discover New Area">🌟</button>
+                </div>
+
+                <!-- Coordinate display -->
+                <div class="coords-display" id="coords-display">0, 0</div>
+
+                <!-- Tooltip -->
+                <div class="map-tooltip" id="map-tooltip"></div>
+            </div>
+
+            <!-- Detail Panel -->
+            <div class="detail-panel hidden" id="detail-panel">
+                <button class="detail-close" id="detail-close">×</button>
+                <div class="detail-content" id="detail-content"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-left">
+                <span class="agent-badge">🤖 Built by Chatur Agent</span>
+                <span class="evolution-status" id="evolution-status">World is evolving...</span>
+            </div>
+            <div class="footer-right">
+                <span class="seed-display" id="seed-display">Seed: ???</span>
+                <span class="last-updated" id="last-updated">Just now</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal hidden" id="help-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">×</button>
+            <h2>🌟 How to Explore Aetheria</h2>
+            <div class="help-grid">
+                <div class="help-item">
+                    <div class="help-key">🖱️ Click & Drag</div>
+                    <div class="help-desc">Pan across the world map</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">👆 Scroll</div>
+                    <div class="help-desc">Zoom in and out</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">👆 Click</div>
+                    <div class="help-desc">Select a tile or location</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">🌟 Discover</div>
+                    <div class="help-desc">Reveal new areas of the map</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">🗺️ Sidebar</div>
+                    <div class="help-desc">Browse locations and characters</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">⚡ Auto-Evolution</div>
+                    <div class="help-desc">The world evolves on its own via cron jobs</div>
+                </div>
+            </div>
+            <p class="help-footer">Aetheria is an autonomous world — it generates itself, tells its own stories, 
+            and evolves over time. Every visit may reveal something new.</p>
+        </div>
+    </div>
+
+    <script src="js/world.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>
