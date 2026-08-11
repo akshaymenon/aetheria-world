@@ -66,6 +66,13 @@ class WorldMap {
         // Pre-generate tile colors
         this.generateTileCache();
         
+        // Ensure canvas has dimensions before calculating offsets
+        if (this.canvas.width === 0 || this.canvas.height === 0) {
+            console.warn('[Aetheria] Canvas has zero dimensions, retrying...');
+            requestAnimationFrame(() => this.loadWorld(data));
+            return;
+        }
+        
         // Center on starting position
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
@@ -75,6 +82,7 @@ class WorldMap {
         this.offsetY = centerY - worldCenterY;
         
         this.render();
+        console.log('[Aetheria] Map loaded and centered');
     }
     
     generateTileCache() {

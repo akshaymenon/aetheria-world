@@ -9,43 +9,44 @@ let worldMap = null;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
-    // Show loading screen
-    updateLoadingText('Initializing world engine...');
+    console.log('[Aetheria] Starting up...');
     
-    // Initialize map
-    worldMap = new WorldMap('world-map');
-    
-    // Load world data
+    // Step 1: Fetch world data (while loading screen shows)
     updateLoadingText('Loading world data...');
     try {
         const response = await fetch('data/world.json');
-        if (!response.ok) throw new Error('Failed to load world data');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
         worldData = await response.json();
+        console.log('[Aetheria] World loaded:', worldData.size + 'x' + worldData.size, 'seed:', worldData.seed);
     } catch (e) {
-        console.error('Failed to load world data:', e);
+        console.error('[Aetheria] Failed to load world data:', e);
         updateLoadingText('Error loading world data. Using fallback...');
-        // Create minimal fallback data
         worldData = createFallbackWorld();
     }
     
-    // Load map into renderer
-    updateLoadingText('Rendering world map...');
-    await worldMap.loadWorld(worldData);
+    // Step 2: Hide loading, show app (gives containers real dimensions)
+    updateLoadingText('Entering Aetheria...');
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
     
-    // Initialize UI
-    updateLoadingText('Building interface...');
+    // Small delay for layout to settle
+    await new Promise(r => setTimeout(r, 100));
+    
+    // Step 3: Initialize map NOW (container has real dimensions)
+    console.log('[Aetheria] Initializing map...');
+    worldMap = new WorldMap('world-map');
+    worldMap.loadWorld(worldData);
+    
+    // Step 4: Build UI
+    console.log('[Aetheria] Building UI...');
     initializeUI();
     
-    // Hide loading screen
-    setTimeout(() => {
-        document.getElementById('loading-screen').classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
-        
-        // Trigger entrance animation
-        document.querySelector('.main-header').style.animation = 'fadeInUp 0.5s ease';
-        document.querySelector('.sidebar').style.animation = 'fadeInUp 0.6s ease';
-        document.querySelector('.map-container').style.animation = 'fadeInUp 0.7s ease';
-    }, 500);
+    // Entrance animations
+    document.querySelector('.main-header').style.animation = 'fadeInUp 0.5s ease';
+    document.querySelector('.sidebar').style.animation = 'fadeInUp 0.6s ease';
+    document.querySelector('.map-container').style.animation = 'fadeInUp 0.7s ease';
+    
+    console.log('[Aetheria] Ready!');
 });
 
 function updateLoadingText(text) {
